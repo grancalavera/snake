@@ -103,9 +103,6 @@ drawGameOver dead =
     then withAttr gameOverAttr $ C.hCenter $ str "GAME OVER"
     else emptyWidget
 
-gameOverAttr :: AttrName
-gameOverAttr = "gameOver"
-
 drawGrid :: Game -> Widget Name
 drawGrid g = withBorderStyle BS.unicodeBold
   $ B.borderWithLabel (str "Snake")
@@ -127,10 +124,11 @@ drawCell Empty = withAttr emptyAttr cw
 cw :: Widget Name
 cw = str "  "
 
-snakeAttr, foodAttr, emptyAttr :: AttrName
-snakeAttr = "snakeAttr"
-foodAttr = "foodAttr"
-emptyAttr = "emptyAttr"
+gameOverAttr, snakeAttr, foodAttr, emptyAttr :: AttrName
+gameOverAttr = "gameOver"
+snakeAttr    = "snakeAttr"
+foodAttr     = "foodAttr"
+emptyAttr    = "emptyAttr"
 
 theMap :: AttrMap
 theMap = attrMap V.defAttr
