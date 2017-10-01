@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, FlexibleInstances #-}
+{-# LANGUAGE TemplateHaskell, FlexibleContexts #-}
 module Snake where
 
 import Control.Applicative ((<|>))
