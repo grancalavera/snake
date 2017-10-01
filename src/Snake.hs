@@ -112,7 +112,7 @@ turnDir n c
   | c `elem` [East, West] && n `elem` [North, South] = n
   | otherwise                                        = c
 
--- | Initialize a paused game with random rood location
+-- | Initialize a paused game with random food location
 initGame :: IO Game
 initGame = do
   (f :| fs) <- fromList . randomRs (V2 0 0, V2 (width - 1) (height - 1)) <$> newStdGen
