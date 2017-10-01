@@ -92,8 +92,8 @@ nextHead d = go . S.viewl
     go (a :< _)
       | d == North = a & _y %~ (\y -> (y + 1) `mod` height)
       | d == South = a & _y %~ (\y -> (y - 1) `mod` height)
-      | d == East  = a & _y %~ (\x -> (x + 1) `mod` width)
-      | d == West  = a & _y %~ (\x -> (x - 1) `mod` width)
+      | d == East  = a & _x %~ (\x -> (x + 1) `mod` width)
+      | d == West  = a & _x %~ (\x -> (x - 1) `mod` width)
 
 -- | Turn game direction (only turns orthogonally)
 --
@@ -104,7 +104,7 @@ turn d g =
     then g
     else g & dir %~ (turnDir d)
            & paused .~ False
-           & paused .~ True
+           & frozen .~ True
 
 turnDir :: Direction -> Direction -> Direction
 turnDir n c
