@@ -19,6 +19,14 @@ import Brick
   , attrMap, withAttr, emptyWidget, AttrName, on, fg
   , (<+>)
   )
+import Brick.BChan (newBChan, writeBChan)
+import qualified Brick.Widgets.Border as B
+import qualified Brick.Widgets.Border.Style as BS
+import qualified Brick.Widgets.Center as C
+import qualified Graphics.Vty as V
+import qualified Data.Sequence as S
+import Linear.V2 (V2(..))
+import Lens.Micro ((^.))
 
 -- Types
 
@@ -46,13 +54,32 @@ app = App { appDraw         = drawUI
           }
 
 main :: IO ()
-main = undefined
-
+main = do
+  chan <- newBChan 10
+  forkIO $ forever $ do
+    writeBChan chan Tick
+    threadDelay 100000 -- decides how fast your game moves
+  g <- initGame
+  void $ customMain (V.mkVty V.defaultConfig) (Just chan) app g
 
 -- Handling events
 
 handleEvent :: Game -> BrickEvent Name Tick -> EventM Name (Next Game)
-handleEvent = undefined
+handleEvent g (AppEvent Tick)                       = continue $ step g
+handleEvent g (VtyEvent (V.EvKey V.KUp []))         = continue $ turn North g
+handleEvent g (VtyEvent (V.EvKey V.KDown []))       = continue $ turn South g
+handleEvent g (VtyEvent (V.EvKey V.KRight []))      = continue $ turn East g
+handleEvent g (VtyEvent (V.EvKey V.KLeft []))       = continue $ turn West g
+handleEvent g (VtyEvent (V.EvKey (V.KChar 'k') [])) = continue $ turn North g
+handleEvent g (VtyEvent (V.EvKey (V.KChar 'j') [])) = continue $ turn South g
+handleEvent g (VtyEvent (V.EvKey (V.KChar 'l') [])) = continue $ turn East g
+handleEvent g (VtyEvent (V.EvKey (V.KChar 'h') [])) = continue $ turn West g
+handleEvent g (VtyEvent (V.EvKey (V.KChar 'r') [])) = liftIO (initGame)  >>= continue
+handleEvent g (VtyEvent (V.EvKey (V.KChar 'q') [])) = halt g
+handleEvent g (VtyEvent (V.EvKey V.KEsc []))        = halt g
+handleEvent g _                                     = continue g
+
+
 
 -- Drawing
 
