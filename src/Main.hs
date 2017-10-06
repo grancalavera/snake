@@ -54,7 +54,14 @@ d = fromMaybe "Fallback" (guard True >> Just "value")
 
 e = putStrLn $ show [a, b, c, d]
 
--- all the functions like nextFood have the same type:
+-- most of the functions like nextFood have the same type:
 -- f :: Game -> Game
 -- they take the whole state of the game, perform one specific task
 -- and then return a whole new state of the game
+
+-- some of them have the type:
+-- f :: Game -> Maybe Game
+-- and those ones involve chance, luck or something that might fail
+-- somehow. for instance `die`, where the player might not die: if
+-- the player doesn't die, then `die :: Game -> Maybe Game` will
+-- reutrn `Nothing`
