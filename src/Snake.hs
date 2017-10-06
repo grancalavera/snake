@@ -1,3 +1,5 @@
+-- With FlexibleContexts enabled
+-- you can have any type inside a typeclass.
 {-# LANGUAGE TemplateHaskell, FlexibleContexts #-}
 module Snake where
 

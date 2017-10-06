@@ -53,8 +53,8 @@ app = App { appDraw         = drawUI
           , appAttrMap      = const theMap
           }
 
-main :: IO ()
-main = do
+snakeMain :: IO ()
+snakeMain = do
   chan <- newBChan 10
   forkIO $ forever $ do
     writeBChan chan Tick
