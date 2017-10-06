@@ -54,6 +54,9 @@ step g = fromMaybe g $ do
 -- | Possible die if next head position is disallowed
 die :: Game -> Maybe Game
 die g = do
+  -- if the next head is part of the snake
+  -- continue running the next computation >>
+  -- otherwise return mempty
   guard (nh g `elem` g ^. snake)
   return $ g & dead .~ True
 
