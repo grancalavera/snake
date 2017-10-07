@@ -2,10 +2,11 @@
 module Toying where
 
 import Control.Applicative ((<|>))
-import Control.Monad (guard, forever, void)
+import Control.Monad (guard, forever, void, liftM)
 import Control.Monad.IO.Class (liftIO)
 import Control.Concurrent (threadDelay, forkIO)
 import Data.Maybe (fromMaybe)
+import Data.Char (toUpper)
 
 import Data.Sequence (Seq,ViewL(..), ViewR(..), (<|))
 import qualified Data.Sequence as S
@@ -87,4 +88,10 @@ e = putStrLn $ show [a, b, c, d]
 -- and those ones involve chance, luck or something that might fail
 -- somehow. for instance `die`, where the player might not die: if
 -- the player doesn't die, then `die :: Game -> Maybe Game` will
--- reutrn `Nothing`
+-- return `Nothing`
+
+-- is not exactly what I was thinking about but
+-- is illustrative of how to use `over`
+-- (I'm leaving the person hanging because I want to and I can)
+yellAddress :: Person -> Person
+yellAddress = address %~ (liftM $ map toUpper)
