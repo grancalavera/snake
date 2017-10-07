@@ -80,10 +80,17 @@ nextFood g =
                  & food  .~ f
 
 -- | Move snake along in a marquee fashion
+-- as far as I can tell this function splits a Sequence
+-- and drops the last element to the right (a.k.a. the tail)
+-- see that :> is the data constructor for ViewR, then it
+-- finds the next head (nh) and creates a new sequence by
+-- adding the next head in the correct position. end result
+-- is the snake 'moves'
 move :: Game -> Game
 move g = g & snake %~ (mv . S.viewr)
   where
     mv (EmptyR) = error "Snakes can't be empty"
+    -- (‘(:>)’ is a data constructor of ‘ViewR’
     mv (s :> _) = nh g <| s
 
 -- | Get next head location of the game's snake
